@@ -1,0 +1,36 @@
+body {
+  background-color: #ddd;
+  margin: 5px;
+}
+
+.form-container {
+  width: 100%;
+}
+
+.table-container {
+  margin-top: 50px;
+}
+
+@media (min-width: 576px) {
+  .form-container {
+    width: 70%;
+  }
+}
+
+@media (min-width: 720px) {
+  .form-container {
+    width: 50%;
+  }
+}
+
+@media (min-width: 960px) {
+  .form-container {
+    width: 40%;
+  }
+}
+
+@media (min-width: 1140px) {
+  .form-container {
+    width: 30%;
+  }
+}

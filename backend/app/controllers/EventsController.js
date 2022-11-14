@@ -1,36 +1,52 @@
 const EventModel = require('../models/EventModel')
+const CitiesModel = require('../models/CityModel')
 
 module.exports = {
+
   index: (req, res, next) => {
-    EventModel.find({}, function(err, result) {
+    console.log('asasd')
+    EventModel.find().populate('city').exec(function (err, result) {
       if (err) {
         return res.status(500).json({
           message: 'Error while fetching Events',
           error: err,
         })
-      } 
+      }
+      
+      console.log(result)
 
       res.json(result);
     })
   },
 
   create: (req, res, next) => {
-    const event = new EventModel({
-      name: req.body.name,
-      event: req.body.event,
-      city: req.body.city
+    let event = {}
+    CitiesModel.findOne({ key: req.body.city.key }, function (err, city) {
+      // console.log(city)
+      // console.log(err)
+
+      event = new EventModel({
+        name: req.body.name,
+        event: req.body.event,
+        city
+      })
+
+      // console.log(event)
+
+      event.save((err, event) => {
+        if (err) {
+          return res.status(500).json({
+            message: 'Error while creating Event',
+            error: err,
+          })
+        }
+  
+        return res.status(201).json(event) // http 201 == Created
+      })
+
     })
 
-    event.save((err, event) => {
-      if (err) {
-        return res.status(500).json({
-          message: 'Error while creating Event',
-          error: err,
-        })
-      }
-
-      return res.status(201).json(event) // http 201 == Created
-    })
+    // console.log(event)
   },
 
   delete: (req, res, next) => {
@@ -45,7 +61,7 @@ module.exports = {
         })
       }
 
-      return res.status('200').json({
+      return res.status(200).json({
         id: id,
         deleted: true
       }) // http 200 = OK & entity decribing status
@@ -68,4 +84,5 @@ module.exports = {
       }
     })
   }
+
 }

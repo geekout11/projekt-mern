@@ -1,11 +1,12 @@
 const config = require('./config')
 const cors = require('cors')
-const express = require ('express')
+const express = require('express')
 const mongoose = require('mongoose')
 const mongoUrl = `mongodb://${config.db.host}:${config.db.port}/${config.db.name}`
 
+
 mongoose
-  .connect(mongoUrl, {})
+  .connect(mongoUrl, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => {
     console.log('MongoDB is connected!')
   })

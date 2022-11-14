@@ -1,52 +1,60 @@
 const EventModel = require('../models/EventModel')
 const CitiesModel = require('../models/CityModel')
+const CourseModel = require('../models/CourseModel')
 
 module.exports = {
 
   index: (req, res, next) => {
-    console.log('asasd')
-    EventModel.find().populate('city').exec(function (err, result) {
-      if (err) {
-        return res.status(500).json({
-          message: 'Error while fetching Events',
-          error: err,
-        })
-      }
-      
-      console.log(result)
-
-      res.json(result);
-    })
-  },
-
-  create: (req, res, next) => {
-    let event = {}
-    CitiesModel.findOne({ key: req.body.city.key }, function (err, city) {
-      // console.log(city)
-      // console.log(err)
-
-      event = new EventModel({
-        name: req.body.name,
-        event: req.body.event,
-        city
-      })
-
-      // console.log(event)
-
-      event.save((err, event) => {
+    EventModel.find()
+      .populate('city')
+      .populate('course')
+      .exec(function (err, result) {
         if (err) {
           return res.status(500).json({
-            message: 'Error while creating Event',
+            message: 'Error while fetching Events',
             error: err,
           })
         }
-  
-        return res.status(201).json(event) // http 201 == Created
+
+        // console.log(result)
+
+        res.json(result);
       })
+  },
 
+  create: (req, res, next) => {
+
+    let event = {}
+
+    CitiesModel.findOne({ key: req.body.city.key }, function (err, city) {
+      CourseModel.findOne({ key: req.body.event.key }, function (err, course) {
+
+
+        // console.log(course)
+        // console.log(city)
+        // console.log(err)
+
+        event = new EventModel({
+          name: req.body.name,
+          course,
+          city
+        })
+
+
+        console.log(event)
+
+        event.save((err, event) => {
+          if (err) {
+            return res.status(500).json({
+              message: 'Error while creating Event',
+              error: err,
+            })
+          }
+
+          return res.status(201).json(event) // http 201 == Created
+        })
+      })
     })
-
-    // console.log(event)
   },
 
   delete: (req, res, next) => {

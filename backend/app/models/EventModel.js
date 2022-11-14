@@ -6,15 +6,9 @@ const EventSchema = new Schema({
     type: String,
     required: true,
   },
-  event: {
-    key: {
-      type: String,
-      required: true,
-    },
-    val: {
-      type: String,
-      required: true,
-    },
+  course: {
+    type: Schema.Types.ObjectId,
+    ref: 'Course'
   },
   city: {
     type: Schema.Types.ObjectId,

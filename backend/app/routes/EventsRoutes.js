@@ -10,8 +10,6 @@ module.exports = () => {
   // POST /events/add
   router.post('/add', eventController.create)
 
-  // router.post('/add', citiesController.create)
-
   // DELETE /events/delete/:id
   router.delete('/delete/:id', eventController.delete)
 

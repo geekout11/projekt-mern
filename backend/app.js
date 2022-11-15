@@ -20,6 +20,9 @@ app.use(cors())
 
 const eventRoutes = require('./app/routes/EventsRoutes')()
 app.use('/events', eventRoutes)
+app.use('/', eventRoutes)
+app.use('/', eventRoutes)
+
 
 app.listen(config.app.port, () => {
   console.log('⚡️ Express server is up! ⚡️ happy hacking ;)')

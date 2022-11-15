@@ -27,7 +27,7 @@ module.exports = {
     let event = {}
 
     CitiesModel.findOne({ key: req.body.city.key }, function (err, city) {
-      CourseModel.findOne({ key: req.body.event.key }, function (err, course) {
+      CourseModel.findOne({ key: req.body.course.key }, function (err, course) {
 
 
         // console.log(course)
@@ -41,7 +41,7 @@ module.exports = {
         })
 
 
-        console.log(event)
+        // console.log(event)
 
         event.save((err, event) => {
           if (err) {
@@ -79,17 +79,25 @@ module.exports = {
 
   update: (req, res, next) => {
 
-    EventModel.findByIdAndUpdate(req.params.id, req.body, (err, event) => {
-      if (err) {
-        res.status(500).json({
-          message: 'Error while updating Event',
-          error: err
+    EventModel.findByIdAndUpdate(req.params.id, req.body, (err, course) => {
+      CitiesModel.findByIdAndUpdate(req.params.id, { key: req.body.city.key }, function (err, city) {
+        CourseModel.findByIdAndUpdate(req.params.id, { key: req.body.course.key }, function (err, course) {
+
+          if (err) {
+            res.status(500).json({
+              message: 'Error while updating Event',
+              error: err
+            })
+          } else {
+            res.status(200).json({
+              message: 'Event has been updated'
+            })
+          }
+
+          // console.log(course)
+
         })
-      } else {
-        res.status(200).json({
-          message: 'Event has been updated'
-        })
-      }
+      })
     })
   }
 

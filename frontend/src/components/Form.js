@@ -7,38 +7,43 @@ import './Form.css'
 
 const Form = (props) => {
   const [name, setName] = useState('')
-  const [event, setEvent] = useState({ key: '', val: '' })
+  const [course, setEvent] = useState({ key: '', val: '' })
   const [city, setCity] = useState({ key: '', val: '' })
   const [errors, setErrors] = useState([])
 
-  const choicesEvents = [
-    ['', '---'],
-    ['front-end-react', 'Front End - ReactJS'],
-    // ['front-end-vue', 'Front End - VUE'],
-    // ['front-end-angular', 'Front End - Angular'],
-    ['back-end-node-js', 'Back End - Node.js'],
-    // ['back-end-node-java', 'Back End - Java'],
-    // ['back-end-node-python', 'Back End - Python'],
-    // ['back-end-node-php', 'Back End - PHP'],
-    // ['back-end-node-Csharp', 'Back End - C#'],
-    ['full-stack-mern', 'Full Stack - MERN'],
-    // ['full-stack-mevn', 'Full Stack - MEVN'],
-    // ['full-stack-mean', 'Full Stack - MEAN'],
-    // ['full-stack-java-react', 'Full Stack - Java + React'],
-    // ['full-stack-java-vue', 'Full Stack - Java + Vue'],
-    // ['full-stack-java-angular', 'Full Stack - Java + Angular'],
-    // ['data-analysis-python', 'Analiza danych - Python'],
-    ['tester-manual', 'Tester Manualny'],
-  ]
+  // const choicesEvents = [
+  //   ['', '---'],
+  //   ['front-end-react', 'Front End - ReactJS'],
+  //   // ['front-end-vue', 'Front End - VUE'],
+  //   // ['front-end-angular', 'Front End - Angular'],
+  //   ['back-end-node-js', 'Back End - Node.js'],
+  //   // ['back-end-node-java', 'Back End - Java'],
+  //   // ['back-end-node-python', 'Back End - Python'],
+  //   // ['back-end-node-php', 'Back End - PHP'],
+  //   // ['back-end-node-Csharp', 'Back End - C#'],
+  //   ['full-stack-mern', 'Full Stack - MERN'],
+  //   // ['full-stack-mevn', 'Full Stack - MEVN'],
+  //   // ['full-stack-mean', 'Full Stack - MEAN'],
+  //   // ['full-stack-java-react', 'Full Stack - Java + React'],
+  //   // ['full-stack-java-vue', 'Full Stack - Java + Vue'],
+  //   // ['full-stack-java-angular', 'Full Stack - Java + Angular'],
+  //   // ['data-analysis-python', 'Analiza danych - Python'],
+  //   ['tester-manual', 'Tester Manualny'],
+  // ]
 
-  const choicesCities = [
-    ['', '---'],
-    ['online', 'Online'],
-    ['warszawa', 'Warszawa'],
-    ['krakow', 'Kraków'],
-    // ['trojmiasto', 'Trójmiasto'],
-    // ['lublin', 'Lublin'],
-  ]
+  // const choicesCities = [
+  //   ['', '---'],
+  //   ['online', 'Online'],
+  //   ['warszawa', 'Warszawa'],
+  //   ['krakow', 'Kraków'],
+  //   // ['trojmiasto', 'Trójmiasto'],
+  //   // ['lublin', 'Lublin'],
+  // ]
+
+
+  // console.log(choicesCities)
+
+
 
   const saveEvent = (eventObj) => {
     axios
@@ -69,7 +74,7 @@ const Form = (props) => {
       errorsValidate.push('Wpisz Imie i Nazwisko')
     }
 
-    if (event.key.trim() === '') {
+    if (course.key.trim() === '') {
       errorsValidate.push('Wybierz Szkolenie')
     }
 
@@ -89,7 +94,7 @@ const Form = (props) => {
 
     const newEvent = {
       name: name,
-      event: event,
+      course: course,
       city: city,
     }
 
@@ -120,6 +125,12 @@ const Form = (props) => {
     })
   }
 
+  // let choicesCities = props.cities.map((value, text) => (
+  //   <option key={value._id} value={value.key}>
+  //     {value.val}
+  //   </option>
+  // ))
+
   return (
     <div className='formWrapper'>
       <form action='#' onSubmit={validateForm}>
@@ -135,19 +146,19 @@ const Form = (props) => {
         </div>
 
         <div className='wrapper'>
-          <label htmlFor='event'>Wydarzenie</label>
+          <label htmlFor='course'>Wydarzenie</label>
           <Select
-            values={choicesEvents}
-            selectedValue={event.key}
+            values={props.courses}
+            selectedValue={course.key}
             onValueChange={handleChangeEvent}
-            id='event'
+            id='course'
           />
         </div>
 
         <div className='wrapper'>
           <label htmlFor='city'>Miasto</label>
           <Select
-            values={choicesCities}
+            values={props.cities}
             selectedValue={city.key}
             onValueChange={handleChangeCity}
             id='city'

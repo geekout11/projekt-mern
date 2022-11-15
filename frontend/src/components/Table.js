@@ -8,29 +8,17 @@ const Table = ({ events, deleteEvent, ...rest }) => {
 
   const [editEvents, setEditEvents] = useState('');
   const [name, setName] = useState('')
-  const [event, setEvent] = useState({ key: '', val: '' })
+  const [course, setEvent] = useState({ key: '', val: '' })
   const [city, setCity] = useState({ key: '', val: '' })
 
-  const choicesEvents = [
-    ['', '---'],
-    ['front-end-react', 'Front End - ReactJS'],
-    ['back-end-node-js', 'Back End - Node.js'],
-    ['full-stack-mern', 'Full Stack - MERN'],
-    ['tester-manual', 'Tester Manualny'],
-  ]
-
-  const choicesCities = [
-    ['', '---'],
-    ['online', 'Online'],
-    ['warszawa', 'Warszawa'],
-    ['krakow', 'Kraków'],
-  ]
+  // console.log(course)
+  // console.log(city)
 
   const updateEvent = (rowId, props) => {
     if (window.confirm('Zaaktualizować użytkownika?')) {
       axios
         .put(config.api.url + '/events/update/' + rowId,
-          { name, event, city }
+          { name, course, city }
         )
         .then((res) => {
           window.location.reload();
@@ -63,7 +51,6 @@ const Table = ({ events, deleteEvent, ...rest }) => {
     })
   }
 
-
   return (
     <table className='table' {...rest}>
       <thead>
@@ -92,15 +79,15 @@ const Table = ({ events, deleteEvent, ...rest }) => {
                 /></td>
                 <td>
                   <Select
-                    values={choicesEvents}
-                    selectedValue={event.key}
+                    // values={choicesEvents}
+                    selectedValue={course.key}
                     onValueChange={handleChangeEvent}
-                    id='event'
+                    id='course'
                   />
                 </td>
                 <td>
                   <Select
-                    values={choicesCities}
+                    // values={choicesCities}
                     selectedValue={city.key}
                     onValueChange={handleChangeCity}
                     id='city'
@@ -115,14 +102,14 @@ const Table = ({ events, deleteEvent, ...rest }) => {
             <tr key={row._id}>
               <td>{index + 1}</td>
               <td>{row.name}</td>
-              <td eventkey={row.event.key}>{row.event.val}</td>
-              <td citykey={row.event.key}>{row.city.val}</td>
+              <td coursekey={row.course.key}>{row.course.val}</td>
+              <td citykey={row.city.key}>{row.city.val}</td>
               <td>
                 <button onClick={() => deleteEvent(row._id)} className='delete'>Usuń</button>
                 <button onClick={() => {
                   setName(row.name)
                   setCity(row.city)
-                  setEvent(row.event)
+                  setEvent(row.course)
                   setEditEvents(row._id)
                 }} className='edit'>Edit</button>
               </td>
@@ -135,4 +122,4 @@ const Table = ({ events, deleteEvent, ...rest }) => {
   )
 }
 
-export default Table
+export default Table;

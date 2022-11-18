@@ -22,17 +22,19 @@ function App() {
       .get(config.api.url + '/events')
       .then((res) => {
         setEvents(res.data)
+        // console.log(res.data)
       })
       .catch((err) => {
         console.log(err)
       })
   }
 
-  const getCities = () => {
+  const getCities = (_id) => {
     axios
       .get(config.api.url + '/cities/all')
       .then((res) => {
         setCities(res.data)
+        // console.log(res.data)
       })
       .catch((err) => {
         console.log(err)
@@ -44,6 +46,7 @@ function App() {
       .get(config.api.url + '/course/all')
       .then((res) => {
         setCourses(res.data)
+        // console.log(res.data)
       })
       .catch((err) => {
         console.log(err)
@@ -69,11 +72,11 @@ function App() {
   return (
     <div className='App'>
       <div className='form-container'>
-        <Form getEvents={getEvents} cities={cities} events={events} courses={courses} />
+        <Form getEvents={getEvents} events={events} courses={courses} cities={cities} />
       </div>
 
       <div className='table-container'>
-        <Table events={events} deleteEvent={deleteEvent} className='table' />
+        <Table getEvents={getEvents} events={events} deleteEvent={deleteEvent} courses={courses} cities={cities} className='table' />
       </div>
     </div>
   )

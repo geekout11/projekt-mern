@@ -4,25 +4,28 @@ import config from '../config'
 import axios from 'axios'
 import Select from './Select'
 
-const Table = ({ events, deleteEvent, ...rest }) => {
+const Table = ({ events, getEvents, deleteEvent, cities, courses, ...rest }) => {
 
   const [editEvents, setEditEvents] = useState('');
   const [name, setName] = useState('')
-  const [course, setEvent] = useState({ key: '', val: '' })
+  const [course, setCourse] = useState({ key: '', val: '' })
   const [city, setCity] = useState({ key: '', val: '' })
 
+  // console.log(name)
   // console.log(course)
   // console.log(city)
 
-  const updateEvent = (rowId, props) => {
+  const updateEvent = (rowId) => {
     if (window.confirm('Zaaktualizować użytkownika?')) {
+      // console.log(city)
       axios
         .put(config.api.url + '/events/update/' + rowId,
-          { name, course, city }
+          { name, course, city }, { mode: 'cors' }
         )
         .then((res) => {
-          window.location.reload();
-          props.getEvents()
+          // window.location.reload();
+          getEvents()
+          setEditEvents('')
         })
         .catch((err) => {
           console.log(err)
@@ -35,9 +38,11 @@ const Table = ({ events, deleteEvent, ...rest }) => {
     setName(e.target.value)
   }
 
-  const handleChangeEvent = (e) => {
+  const handleChangeEvent = (e, id) => {
     // console.log('handleChangeEvent')
-    setEvent({
+    // console.log(e.target)
+    setCourse({
+      // _id: e.target.options,
       key: e.target.value,
       val: e.target.options[e.target.selectedIndex].innerText,
     })
@@ -67,6 +72,11 @@ const Table = ({ events, deleteEvent, ...rest }) => {
         {events.map((row, index) => {
 
           if (editEvents === row._id) {
+
+            // console.log('edycja stringa')
+            // console.log(courses)
+            // console.log(cities)
+
             return (
               <tr key={row._id}>
                 <td>{index + 1}</td>
@@ -79,7 +89,7 @@ const Table = ({ events, deleteEvent, ...rest }) => {
                 /></td>
                 <td>
                   <Select
-                    // values={choicesEvents}
+                    values={courses}
                     selectedValue={course.key}
                     onValueChange={handleChangeEvent}
                     id='course'
@@ -87,7 +97,7 @@ const Table = ({ events, deleteEvent, ...rest }) => {
                 </td>
                 <td>
                   <Select
-                    // values={choicesCities}
+                    values={cities}
                     selectedValue={city.key}
                     onValueChange={handleChangeCity}
                     id='city'
@@ -108,8 +118,8 @@ const Table = ({ events, deleteEvent, ...rest }) => {
                 <button onClick={() => deleteEvent(row._id)} className='delete'>Usuń</button>
                 <button onClick={() => {
                   setName(row.name)
+                  setCourse(row.course)
                   setCity(row.city)
-                  setEvent(row.course)
                   setEditEvents(row._id)
                 }} className='edit'>Edit</button>
               </td>

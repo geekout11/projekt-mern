@@ -79,9 +79,15 @@ module.exports = {
 
   update: (req, res, next) => {
 
-    EventModel.findByIdAndUpdate(req.params.id, req.body, (err, course) => {
-      CitiesModel.findByIdAndUpdate(req.params.id, { key: req.body.city.key }, function (err, city) {
-        CourseModel.findByIdAndUpdate(req.params.id, { key: req.body.course.key }, function (err, course) {
+    CourseModel.findOne({ key: req.body.course.key }, function (err, course) {
+      CitiesModel.findOne({ key: req.body.city.key }, function (err, city) {
+        EventModel.updateOne({ _id: req.params.id }, { course, city }, (err, event) => {
+
+
+          // console.log(req.body)
+          // console.log(course)
+          // console.log(city)
+          // console.log(event)
 
           if (err) {
             res.status(500).json({

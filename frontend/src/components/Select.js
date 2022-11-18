@@ -1,11 +1,14 @@
 import './Select.css';
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 
 
 
 const Select = ({ values, onValueChange, selectedValue, ...rest }) => {
-  
-// console.log(values)
+
+  // console.log(values)
+  // values.forEach((value) => {
+  //   console.log(value.key)
+  // })
 
   return (
     <select

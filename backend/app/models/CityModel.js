@@ -5,6 +5,7 @@ const CitiesSchema = new Schema({
   key: {
     type: String,
     required: true,
+    unique: true
   },
   val: {
     type: String,
